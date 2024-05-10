@@ -1,4 +1,8 @@
-<h2><%= @list.name %></h2>
+<div class="banner" style="background-image: url('<%= cl_image_path @list.photo.key %>');" >
+  <div class="container">
+    <h1><%= @list.name %></h1>
+  </div>
+</div>
 <ul>
   <% @list.bookmarks.each do |bookmark| %>
     <li><%= bookmark.movie.title %> (<%= truncate(bookmark.movie.overview, :length => 50, :separator => ' ') %>): <%= bookmark.comment %>
