@@ -1,0 +1,32 @@
+<h2><%= @list.name %></h2>
+<ul>
+  <% @list.bookmarks.each do |bookmark| %>
+    <li><%= bookmark.movie.title %> (<%= truncate(bookmark.movie.overview, :length => 50, :separator => ' ') %>): <%= bookmark.comment %>
+    <%= link_to bookmark_path(bookmark), data: { turbo_method: "delete", turbo_confirm: "Are you sure?" } do %><i class="fa-sharp fa-solid fa-delete-left"></i><% end %>
+    </li>
+  <% end %>
+</ul>
+<div class="container m-3">
+  <h4>Add a new bookmark:</h4>
+  <%= simple_form_for [@list, @bookmark] do |f| %>
+    <%= f.input :comment %>
+    <%= f.association :movie %>
+    <%= f.submit %>
+  <% end %>
+</div>
+<ul>
+  <% @list.reviews.each do |review| %>
+    <li>
+      <%= "⭐️" * review.rating %>: <%= review.comment %> (<%=  "#{((Time.now - review.created_at) / 60).floor} minutes ago" %>)
+    </li>
+  <% end %>
+</ul>
+<div class="container m-3">
+  <h4>Add a new review for this collection:</h4>
+  <%= simple_form_for [@list, @review] do |f| %>
+    <%= f.input :comment %>
+    <%= f.input :rating, collection: 0..5 %>
+    <%= f.submit %>
+  <% end %>
+</div>
+<div><%= link_to "Back to all lists", lists_path %></div>
